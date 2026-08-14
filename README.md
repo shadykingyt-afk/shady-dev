@@ -11,10 +11,9 @@ Welcome to the official **Shady Dev** repository! This hub houses custom Roblox 
 
 ## 📺 Content & Channels
 
-* 🎬 **YouTube (Main):** [MrCansl](https://youtube.com)
-* 🎮 **YouTube (Gaming):** [Sh4dizz](https://youtube.com)
+* 🎬 **YouTube (Main):** [MrCansl]([https://youtube.com](https://www.youtube.com/@MrCansl))
+* 🎮 **YouTube (Gaming):** [Sh4dizz]([https://youtube.com](https://www.youtube.com/@Sh4dizz))
 * 🎵 **TikTok:** *(Add your TikTok link here)*
-* 💬 **Discord:** *(Add your Discord server link here)*
 
 ---
 
