@@ -10,412 +10,27 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
-    <style>
-        /* Fix layout shift when scrollbar appears */
-        html {
-            scrollbar-gutter: stable;
-        }
-
-        :root {
-            --bg-main: #050508;
-            --card-bg: rgba(13, 14, 20, 0.7);
-            --card-border: rgba(255, 255, 255, 0.08);
-            --accent-purple: #8b5cf6;
-            --accent-cyan: #06b6d4;
-            --accent-pink: #ec4899;
-            --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Outfit', sans-serif;
-            user-select: none;
-        }
-
-        body {
-            background-color: var(--bg-main);
-            color: var(--text-primary);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        /* Ambient Background Glows */
-        .glow-orb-1 {
-            position: absolute;
-            top: -120px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 700px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(139, 92, 246, 0.18) 0%, rgba(6, 182, 212, 0.08) 50%, transparent 70%);
-            filter: blur(80px);
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        .glow-orb-2 {
-            position: absolute;
-            bottom: 5%;
-            right: -100px;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(236, 72, 153, 0.12) 0%, transparent 70%);
-            filter: blur(90px);
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        /* Header Alignment */
-        header {
-            width: 100%;
-            max-width: 850px;
-            padding: 50px 20px 20px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
-
-        .status-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--card-border);
-            backdrop-filter: blur(12px);
-            padding: 6px 16px;
-            border-radius: 99px;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-secondary);
-            margin-bottom: 20px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-        }
-
-        .online-dot {
-            width: 7px;
-            height: 7px;
-            background-color: #10b981;
-            border-radius: 50%;
-            box-shadow: 0 0 10px #10b981;
-        }
-
-        .hero-title {
-            font-size: 42px;
-            font-weight: 800;
-            letter-spacing: -1px;
-            background: linear-gradient(135deg, #ffffff 30%, var(--text-secondary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 8px;
-        }
-
-        .hero-title span {
-            background: linear-gradient(135deg, var(--accent-purple), var(--accent-cyan));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero-subtitle {
-            font-size: 15px;
-            color: var(--text-secondary);
-            font-weight: 400;
-            margin-bottom: 35px;
-        }
-
-        /* Navigation Bar */
-        nav {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            background: rgba(15, 17, 26, 0.8);
-            backdrop-filter: blur(16px);
-            padding: 6px;
-            border-radius: 16px;
-            border: 1px solid var(--card-border);
-            margin: 0 auto 35px auto;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        }
-
-        .nav-btn {
-            background: transparent;
-            color: var(--text-secondary);
-            border: 1px solid transparent;
-            padding: 10px 18px;
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            white-space: nowrap;
-        }
-
-        .nav-btn.active, .nav-btn:hover {
-            color: #ffffff;
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        .nav-btn.active {
-            background: linear-gradient(135deg, rgba(139, 92, 246, 0.25), rgba(6, 182, 212, 0.25));
-            border-color: rgba(139, 92, 246, 0.4);
-            box-shadow: 0 0 20px rgba(139, 92, 246, 0.2);
-        }
-
-        /* Main Container */
-        main {
-            width: 100%;
-            max-width: 850px;
-            padding: 0 20px 60px 20px;
-        }
-
-        .tab-content {
-            display: none;
-            animation: slideUp 0.35s ease-out;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(16px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Social Grid (2x2 Layout) */
-        .social-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-            width: 100%;
-        }
-
-        .social-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(16px);
-            border: 1px solid var(--card-border);
-            border-radius: 16px;
-            padding: 22px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            text-decoration: none;
-            color: var(--text-primary);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .social-card:hover {
-            border-color: rgba(139, 92, 246, 0.5);
-            transform: translateY(-3px);
-            box-shadow: 0 12px 30px rgba(139, 92, 246, 0.15);
-            background: rgba(20, 22, 32, 0.85);
-        }
-
-        .social-left {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .social-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid var(--card-border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            color: var(--accent-purple);
-            transition: 0.3s;
-        }
-
-        .social-card:hover .social-icon {
-            background: var(--accent-purple);
-            color: #fff;
-            border-color: var(--accent-purple);
-            box-shadow: 0 0 15px var(--accent-purple);
-        }
-
-        .social-info h3 { font-size: 16px; font-weight: 600; }
-        .social-info p { font-size: 13px; color: var(--text-secondary); }
-
-        /* Mac Window Style */
-        .mac-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(16px);
-            border: 1px solid var(--card-border);
-            border-radius: 18px;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
-            margin-bottom: 20px;
-        }
-
-        .mac-header {
-            background: rgba(255, 255, 255, 0.02);
-            border-bottom: 1px solid var(--card-border);
-            padding: 12px 18px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .mac-dots {
-            display: flex;
-            gap: 7px;
-        }
-
-        .dot { width: 11px; height: 11px; border-radius: 50%; }
-        .dot-red { background-color: #ff5f56; }
-        .dot-yellow { background-color: #ffbd2e; }
-        .dot-green { background-color: #27c93f; }
-
-        .mac-title {
-            font-size: 12px;
-            font-weight: 500;
-            color: var(--text-secondary);
-            letter-spacing: 0.5px;
-        }
-
-        .mac-body {
-            padding: 25px;
-        }
-
-        /* Script Code Box */
-        .code-box {
-            background: #000000;
-            border: 1px solid var(--card-border);
-            border-radius: 12px;
-            padding: 16px;
-            font-family: 'Consolas', 'Monaco', monospace;
-            font-size: 13px;
-            color: var(--accent-cyan);
-            overflow-x: auto;
-            margin-bottom: 20px;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
-        }
-
-        /* Key Display */
-        .key-display {
-            background: #000000;
-            border: 1px solid rgba(139, 92, 246, 0.3);
-            border-radius: 14px;
-            padding: 20px;
-            text-align: center;
-            font-size: 28px;
-            font-weight: 800;
-            letter-spacing: 3px;
-            color: #10b981;
-            text-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
-            margin: 15px 0;
-            word-break: break-all;
-        }
-
-        .timer-badge {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            font-size: 13px;
-            color: var(--text-secondary);
-            margin-bottom: 22px;
-        }
-
-        .timer-badge i { color: var(--accent-cyan); }
-
-        /* Button Gradient */
-        .btn-gradient {
-            width: 100%;
-            background: linear-gradient(135deg, var(--accent-purple), var(--accent-cyan));
-            color: #ffffff;
-            border: none;
-            padding: 14px;
-            border-radius: 12px;
-            font-size: 15px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.3);
-        }
-
-        .btn-gradient:hover {
-            opacity: 0.92;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.45);
-        }
-
-        /* Toast Popup */
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: rgba(18, 20, 29, 0.95);
-            backdrop-filter: blur(16px);
-            border: 1px solid var(--accent-purple);
-            color: var(--text-primary);
-            padding: 12px 24px;
-            border-radius: 99px;
-            font-size: 14px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
-            opacity: 0;
-            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-            z-index: 999;
-        }
-
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
-            opacity: 1;
-        }
-
-        footer {
-            margin-top: auto;
-            padding: 30px;
-            font-size: 13px;
-            color: var(--text-secondary);
-            text-align: center;
-        }
-
-        @media (max-width: 600px) {
-            .social-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div class="glow-orb-1"></div>
-    <div class="glow-orb-2"></div>
+
+    <!-- Top Navigation / User Auth Bar -->
+    <div class="top-bar">
+        <div style="font-weight: 800; font-size: 18px; color: #fff;">
+            SHADY<span style="color: var(--accent-purple);">.DEV</span>
+        </div>
+        
+        <div id="authNavContainer" class="auth-actions">
+            <!-- Dynamic User Badge & Profile ID Generated by JS -->
+        </div>
+    </div>
 
     <header>
-        <div class="status-pill">
-            <div class="online-dot"></div> Systems Online & Verified
-        </div>
-
+        <div class="status-pill"><div class="online-dot"></div> Systems Online & Verified</div>
         <h1 class="hero-title">Shady <span>Dev Hub</span></h1>
-        <p class="hero-subtitle">High-performance Lua scripts & dynamic 12-hour key authentication.</p>
+        <p class="hero-subtitle">High-performance Lua scripts & authentication system.</p>
 
         <nav>
             <button class="nav-btn active" onclick="switchTab('home', event)"><i class="fa-solid fa-compass"></i> Overview</button>
@@ -425,177 +40,229 @@
     </header>
 
     <main>
-        <!-- TAB 1: OVERVIEW -->
+        <!-- OVERVIEW TAB -->
         <div id="home" class="tab-content active">
             <div class="social-grid">
                 <a href="https://www.youtube.com/@MrCansl" target="_blank" class="social-card">
-                    <div class="social-left">
-                        <div class="social-icon"><i class="fa-brands fa-youtube"></i></div>
-                        <div class="social-info">
-                            <h3>MrCansl</h3>
-                            <p>Main YouTube Channel</p>
-                        </div>
-                    </div>
-                    <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 12px; color: var(--text-secondary);"></i>
+                    <div class="social-left"><div class="social-icon"><i class="fa-brands fa-youtube"></i></div><div><h3>MrCansl</h3><p>Main YouTube Channel</p></div></div>
+                    <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:12px; color:var(--text-secondary);"></i>
                 </a>
-
-                <a href="https://www.youtube.com/@Sh4dizz" target="_blank" class="social-card">
-                    <div class="social-left">
-                        <div class="social-icon"><i class="fa-solid fa-gamepad"></i></div>
-                        <div class="social-info">
-                            <h3>Sh4dizz</h3>
-                            <p>Gaming & Content Channel</p>
-                        </div>
-                    </div>
-                    <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 12px; color: var(--text-secondary);"></i>
-                </a>
-
-                <a href="#" target="_blank" class="social-card">
-                    <div class="social-left">
-                        <div class="social-icon"><i class="fa-brands fa-tiktok"></i></div>
-                        <div class="social-info">
-                            <h3>TikTok</h3>
-                            <p>Short Clips & Edits</p>
-                        </div>
-                    </div>
-                    <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 12px; color: var(--text-secondary);"></i>
-                </a>
-
-                <a href="#" target="_blank" class="social-card">
-                    <div class="social-left">
-                        <div class="social-icon"><i class="fa-brands fa-discord"></i></div>
-                        <div class="social-info">
-                            <h3>Discord Server</h3>
-                            <p>Script Support & Community</p>
-                        </div>
-                    </div>
-                    <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 12px; color: var(--text-secondary);"></i>
+                <a href="https://discord.gg/t54xxU9tfs" target="_blank" class="social-card">
+                    <div class="social-left"><div class="social-icon" style="color: #5865F2;"><i class="fa-brands fa-discord"></i></div><div><h3>Discord Server</h3><p>Support & Script Shop</p></div></div>
+                    <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:12px; color:var(--text-secondary);"></i>
                 </a>
             </div>
         </div>
 
-        <!-- TAB 2: SCRIPTS -->
+        <!-- SCRIPTS TAB -->
         <div id="scripts" class="tab-content">
-            <div class="mac-card">
-                <div class="mac-header">
-                    <div class="mac-dots">
-                        <div class="dot dot-red"></div>
-                        <div class="dot dot-yellow"></div>
-                        <div class="dot dot-green"></div>
+            <div class="scripts-grid">
+                
+                <!-- Script 1: Speed Glitch (PAID) -->
+                <div class="mac-card" data-script-id="script_speed_glitch">
+                    <div class="mac-header">
+                        <div class="mac-dots"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div></div>
+                        <div class="mac-title">SpeedGlitch.lua</div>
+                        
+                        <!-- Visual Fake Discount Trick -->
+                        <div class="price-container">
+                            <span class="old-price">$4.99</span>
+                            <span class="price-tag">$1.99</span>
+                            <span class="discount-badge">60% OFF</span>
+                        </div>
                     </div>
-                    <div class="mac-title">SpeedGlitch.lua</div>
-                    <div style="width: 30px;"></div>
+                    <div class="mac-body">
+                        <div class="card-title-row">
+                            <h3>⚡ Speed Glitch Script</h3>
+                            <span class="badge key-badge"><i class="fa-solid fa-key"></i> Requires Access</span>
+                        </div>
+                        <p class="script-desc">Fast movement & velocity bypass script. Must be logged in with a whitelisted account.</p>
+                        
+                        <div class="action-btn-zone">
+                            <button class="btn-gradient btn-discord" onclick="openAuthModal('login')">
+                                <i class="fa-solid fa-lock"></i> Sign In to Access
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <div class="mac-body">
-                    <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 6px;">⚡ Speed Glitch Script</h3>
-                    <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 20px;">Features dynamic UI, custom mobile jump physics, and auto-saving key bypass system.</p>
-                    
-                    <div class="code-box">
-                        loadstring(game:HttpGet("https://pastebin.com/raw/73WiKRT0"))()
-                    </div>
 
-                    <button class="btn-gradient" onclick="copyScriptText()">
-                        <i class="fa-regular fa-copy"></i> Copy Script Loadstring
-                    </button>
+                <!-- Script 2: Premium Hub (PAID) -->
+                <div class="mac-card" data-script-id="script_premium_hub">
+                    <div class="mac-header">
+                        <div class="mac-dots"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div></div>
+                        <div class="mac-title">PremiumHub.lua</div>
+                        
+                        <!-- Visual Fake Discount Trick -->
+                        <div class="price-container">
+                            <span class="old-price">$6.99</span>
+                            <span class="price-tag gold">$3.79</span>
+                            <span class="discount-badge">45% OFF</span>
+                        </div>
+                    </div>
+                    <div class="mac-body">
+                        <div class="card-title-row">
+                            <h3>🔥 Premium Script Hub</h3>
+                            <span class="badge nokey-badge"><i class="fa-solid fa-bolt"></i> Without Key</span>
+                        </div>
+                        <p class="script-desc">Includes Unlimited Speed Glitch, ESP, Anim Blocker, 4K Monitor view, and full C4 Bomb Jump reloads.</p>
+                        
+                        <div class="action-btn-zone">
+                            <button class="btn-gradient btn-discord" onclick="openAuthModal('login')">
+                                <i class="fa-solid fa-lock"></i> Sign In to Access
+                            </button>
+                        </div>
+                    </div>
                 </div>
+
+                <!-- Script 3: Admin MMV Control Panel (FREE) -->
+                <div class="mac-card" data-script-id="script_admin_mmv">
+                    <div class="mac-header">
+                        <div class="mac-dots"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div></div>
+                        <div class="mac-title">AdminMMV.lua</div>
+                        <div class="price-tag free">FREE</div>
+                    </div>
+                    <div class="mac-body">
+                        <div class="card-title-row">
+                            <h3>👑 Admin MMV Control Panel</h3>
+                            <span class="badge free-badge"><i class="fa-solid fa-crown"></i> Free Access</span>
+                        </div>
+                        <p class="script-desc">Full admin power control panel for Murder Mystery V. Completely free for all registered users.</p>
+                        
+                        <div class="code-box">loadstring(game:HttpGet("https://pastebin.com/raw/SBYf59ef"))()</div>
+                        
+                        <button class="btn-gradient" onclick="copyScriptText('loadstring(game:HttpGet(\&quot;https://pastebin.com/raw/SBYf59ef\&quot;))()', 'Admin MMV Control Panel')">
+                            <i class="fa-regular fa-copy"></i> Copy Loadstring
+                        </button>
+                    </div>
+                </div>
+
             </div>
         </div>
 
-        <!-- TAB 3: KEY SYSTEM -->
+        <!-- KEY SYSTEM TAB -->
         <div id="key" class="tab-content">
             <div class="mac-card" style="max-width: 480px; margin: 0 auto;">
                 <div class="mac-header">
-                    <div class="mac-dots">
-                        <div class="dot dot-red"></div>
-                        <div class="dot dot-yellow"></div>
-                        <div class="dot dot-green"></div>
-                    </div>
-                    <div class="mac-title">KeyAuthenticator.exe</div>
-                    <div style="width: 30px;"></div>
+                    <div class="mac-dots"><div class="dot dot-red"></div><div class="dot dot-yellow"></div><div class="dot dot-green"></div></div>
+                    <div class="mac-title">KeyAuthenticator.exe</div><div style="width:30px;"></div>
                 </div>
                 <div class="mac-body" style="text-align: center;">
                     <i class="fa-solid fa-shield-halved" style="font-size: 38px; color: var(--accent-purple); margin-bottom: 10px;"></i>
-                    <h2 style="font-size: 22px; font-weight: 700;">12-Hour Access Key</h2>
-                    <p style="font-size: 13px; color: var(--text-secondary); margin-top: 4px;">Dynamic key synchronized with all supported executors.</p>
+                    <h2 style="font-size: 22px; font-weight: 700;">Account Key Generator</h2>
+                    <p style="font-size: 13px; color: var(--text-secondary); margin-top: 4px; margin-bottom: 15px;" id="keyBoxDesc">
+                        Sign in to generate your personal 12-hour key.
+                    </p>
 
-                    <div class="key-display" id="keyDisplay">GENERATING...</div>
-
-                    <div class="timer-badge">
-                        <i class="fa-regular fa-clock"></i> Resets in: <span id="keyTimer" style="color: var(--text-primary); font-weight: 600;">00h 00m 00s</span>
+                    <div id="keyContentContainer">
+                        <!-- Dynamic Key Content -->
                     </div>
-
-                    <button class="btn-gradient" onclick="copyKey()">
-                        <i class="fa-regular fa-copy"></i> Copy Key
-                    </button>
                 </div>
             </div>
         </div>
     </main>
 
-    <div id="toast" class="toast">
-        <i class="fa-solid fa-circle-check" style="color: #10b981; font-size: 16px;"></i>
-        <span id="toastMsg">Action completed!</span>
+    <!-- DISCORD PURCHASE MODAL -->
+    <div id="discordModal" class="modal-overlay">
+        <div class="auth-card" style="text-align: center;">
+            <button class="close-modal-btn" onclick="closeDiscordModal()"><i class="fa-solid fa-xmark"></i></button>
+            <i class="fa-brands fa-discord" style="font-size: 48px; color: #5865F2; margin-bottom: 12px;"></i>
+            <h2 style="font-size: 20px; font-weight: 700;" id="buyModalTitle">Purchase Script</h2>
+            <p style="font-size: 13px; color: var(--text-secondary); margin-top: 6px; margin-bottom: 20px;">
+                To complete your purchase, follow these steps in our Discord server:
+            </p>
+
+            <div class="purchase-steps">
+                <div class="step-item">
+                    <span class="step-num">1</span>
+                    <span>Join our Discord server</span>
+                </div>
+                <div class="step-item">
+                    <span class="step-num">2</span>
+                    <span>Open a <b>#Ticket</b> and send your <b>Roblox Username / ID</b></span>
+                </div>
+                <div class="step-item">
+                    <span class="step-num">3</span>
+                    <span>Complete payment & admin will activate it on GitHub!</span>
+                </div>
+            </div>
+
+            <a href="https://discord.gg/t54xxU9tfs" target="_blank" class="btn-gradient btn-discord" style="margin-top: 20px; text-decoration: none;">
+                <i class="fa-brands fa-discord"></i> Open Discord Server
+            </a>
+        </div>
     </div>
 
-    <footer>
-        Developed by <b>Shady (MrCansl / Sh4dizz)</b> &copy; 2026
-    </footer>
-
-    <script>
-        function switchTab(tabId, evt) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+    <!-- AUTH MODAL -->
+    <div id="authModal" class="modal-overlay">
+        <div class="auth-card">
+            <button class="close-modal-btn" onclick="closeAuthModal()"><i class="fa-solid fa-xmark"></i></button>
             
-            document.getElementById(tabId).classList.add('active');
-            evt.currentTarget.classList.add('active');
-        }
+            <div class="auth-tabs">
+                <button id="loginTabBtn" class="auth-tab-btn active" onclick="switchAuthMode('login')">Sign In</button>
+                <button id="signupTabBtn" class="auth-tab-btn" onclick="switchAuthMode('signup')">Sign Up</button>
+            </div>
 
-        function get12hKey() {
-            const osTime = Math.floor(Date.now() / 1000);
-            const currentPeriod = Math.floor(osTime / 43200);
-            const secretCode = (currentPeriod * 1337 + 7373) % 89999 + 10000;
-            return "SPEED-" + secretCode;
-        }
+            <!-- LOGIN FORM -->
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="input-group">
+                    <label>Roblox Username</label>
+                    <input type="text" id="loginUser" class="input-field" placeholder="Enter your Roblox username" required>
+                </div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPass" class="input-field" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn-gradient" style="margin-top: 10px;">
+                    <i class="fa-solid fa-right-to-bracket"></i> Sign In
+                </button>
+            </form>
 
-        const currentKey = get12hKey();
-        document.getElementById("keyDisplay").innerText = currentKey;
+            <!-- SIGN UP FORM -->
+            <form id="signupForm" onsubmit="handleSignUpStep1(event)">
+                <div id="signupStep1">
+                    <div class="input-group">
+                        <label>Roblox Username</label>
+                        <input type="text" id="signupUser" class="input-field" placeholder="Exact Roblox Username" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Password</label>
+                        <input type="password" id="signupPass" class="input-field" placeholder="Create a password" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Confirm Password</label>
+                        <input type="password" id="signupPassConfirm" class="input-field" placeholder="Repeat password" required>
+                    </div>
+                    <button type="submit" class="btn-gradient" id="btnCheckRoblox" style="margin-top: 10px;">
+                        <i class="fa-brands fa-roblox"></i> Check & Verify Roblox Account
+                    </button>
+                </div>
 
-        function updateTimer() {
-            const osTime = Math.floor(Date.now() / 1000);
-            const secondsLeft = 43200 - (osTime % 43200);
-            
-            const hours = Math.floor(secondsLeft / 3600);
-            const minutes = Math.floor((secondsLeft % 3600) / 60);
-            const seconds = secondsLeft % 60;
+                <div id="signupStep2" style="display: none;">
+                    <div id="robloxBadgeContainer"></div>
+                    
+                    <p style="font-size: 13px; color: var(--text-secondary); text-align: center;">
+                        Copy the code below and paste it in your <b>Roblox Profile About / Bio</b>:
+                    </p>
 
-            const pad = (num) => String(num).padStart(2, '0');
-            document.getElementById("keyTimer").innerText = `${pad(hours)}h ${pad(minutes)}m ${pad(seconds)}s`;
-        }
+                    <div class="bio-code-box" id="generatedBioCode">ShadyVerify-Username</div>
 
-        setInterval(updateTimer, 1000);
-        updateTimer();
+                    <button type="button" class="btn-gradient" id="btnVerifyBio" onclick="verifyRobloxBio()" style="margin-top: 15px;">
+                        <i class="fa-solid fa-shield-check"></i> Verify Bio & Create Account
+                    </button>
 
-        function showToast(message) {
-            const toast = document.getElementById("toast");
-            document.getElementById("toastMsg").innerText = message;
-            toast.classList.add("show");
-            setTimeout(() => {
-                toast.classList.remove("show");
-            }, 2500);
-        }
+                    <button type="button" class="btn-auth-nav" onclick="backToStep1()" style="width:100%; justify-content:center; margin-top:10px;">
+                        <i class="fa-solid fa-arrow-left"></i> Change Username
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-        function copyKey() {
-            navigator.clipboard.writeText(currentKey).then(() => {
-                showToast("Key copied to clipboard!");
-            });
-        }
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="toast"></div>
 
-        function copyScriptText() {
-            const loadstringCode = 'loadstring(game:HttpGet("https://pastebin.com/raw/73WiKRT0"))()"))()';
-            navigator.clipboard.writeText(loadstringCode).then(() => {
-                showToast("Script loadstring copied!");
-            });
-        }
-    </script>
+    <footer>Developed by <b>Shady (MrCansl / Sh4dizz)</b> &copy; 2026</footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
